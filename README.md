@@ -54,7 +54,7 @@ Adding a new directive to hint the engine.
 #### [Import assertions](https://github.com/tc39/proposal-import-attributes/)
 
 > [!IMPORTANT]  
-> Import assertions proposal has been renamed to import attributions, and their semantics are changed accordingly. Now it no longer fits the needs of this proposal.
+> Import assertions proposal has been renamed to import attributes, and their semantics are changed accordingly. Now it no longer fits the needs of this proposal.
 
 ```js
 import 'x' assert { sync: true }
