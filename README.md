@@ -34,7 +34,7 @@ the application might be broken in old browsers.
 Adding TLA is a breaking change,
 the library author may want to add a test that their library won't accentually become async due to dependency changes.
 
-## Possible solutions
+## Solution
 
 Adding a hint to the engine,
 if the module evaluation is async or contains an async subgraph,
@@ -49,49 +49,7 @@ so the developer can fix it early.
 
 Adding a new directive to hint the engine.
 
-### Other candidates
-
-#### [Import assertions](https://github.com/tc39/proposal-import-attributes/)
-
-> [!IMPORTANT]  
-> Import assertions proposal has been renamed to import attributions, and their semantics are changed accordingly. Now it no longer fits the needs of this proposal.
-
-```js
-import 'x' assert { sync: true }
-// or
-import 'x' with { assertSync: true }
-```
-
-This solution is not as good as the directive one.
-When a developer uses this feature,
-they intend to assert the current module itself is synchronous,
-but if we take this approach,
-they will have to add the assertion to every `import` and `export` in the current module.
-
-```js
-import './a.js' assert { sync: true }
-import './b.js' assert { sync: true }
-export { x } from './a.js'
-// oh! I forgot to add assert here, and it can turn async with no error!
-```
-
-This usually does not make sense and is error-prone.
-
-Note there _is_ a valid use case to let some of the imports have sync assert and others do not,
-this is when using [defer import](https://github.com/tc39/proposal-defer-import-eval).
-A developer may be okay with an async module in the initial graph
-but wants to ensure there is no async subgraph of the deferred module that gets evaluated initially.
-
-```js
-import './async-module.js'
-import defer * as mod from './mod.js' assert { sync: true }
-import './mod-2.js'
-
-// No subgraph of mod.js should execute before this line.
-mod.start()
-```
-
-#### Linter/bundler level bans
+## Other solutions: Linter/bundler level bans
 
 It is possible, but each tool needs to invent its convention to do this.
 It also does not apply to developers that don't use a bundler/linter.
